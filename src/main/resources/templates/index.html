@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/stomp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script type="text/javascript">
+        let socket = null;
+        let stomp = null;
+        window.addEventListener("load", (event)=>{
+            connectServer();
+        });
+
+        function connectServer(){
+            socket = new SockJS("http://localhost:8080/connect");
+            stomp = Stomp.over(socket);
+            stomp.connect({}, (frame) => {
+                console.log("연결");
+                stomp.subscribe("/topic/chat", ()=>{});
+            }, (error) => {
+                console.log(error);
+            })
+        }
+
+        function sendMessage(){
+            let message = document.querySelector("#chatBox").value;
+            stomp.send("/broker/chat", {}, JSON.stringify({message: message}));
+        }
+    </script>
+</head>
+<body>
+    메인 화면
+    <input id="chatBox" type="text">
+    <button onclick="sendMessage()">제출</button>
+</body>
+</html>
