@@ -12,9 +12,10 @@ import org.springframework.stereotype.Controller;
 public class ChatController {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
+    // "/topic/chat"을 구독한 사람들한테 데이터 전송
     @MessageMapping("/chat")
     public void handleChat(String textMessage) {
         log.info("{}", textMessage);
-        simpMessagingTemplate.convertAndSend("/topic/chat", textMessage + "서버에서 보냄");
+        simpMessagingTemplate.convertAndSend("/topic/chat", textMessage);
     }
 }

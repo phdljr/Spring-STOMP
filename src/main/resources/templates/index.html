@@ -8,30 +8,60 @@
     <script type="text/javascript">
         let socket = null;
         let stomp = null;
-        window.addEventListener("load", (event)=>{
+        window.addEventListener("load", (event) => {
             connectServer();
         });
 
-        function connectServer(){
+        function connectServer() {
             socket = new SockJS("http://localhost:8080/connect");
             stomp = Stomp.over(socket);
             stomp.connect({}, (frame) => {
                 console.log("연결");
-                stomp.subscribe("/topic/chat", ()=>{});
             }, (error) => {
                 console.log(error);
             })
         }
 
-        function sendMessage(){
-            let message = document.querySelector("#chatBox").value;
-            stomp.send("/broker/chat", {}, JSON.stringify({message: message}));
+        function connectChatRoom() {
+            console.log("채팅방 입장");
+            stomp.subscribe("/topic/chat", receiveMessage);
+        }
+
+        function sendMessage() {
+            let message = document.querySelector("#messageInputBox").value;
+            stomp.send("/broker/chat", {username: "test"}, JSON.stringify({message: message}));
+        }
+
+        function receiveMessage(response) {
+            let divElement = document.createElement("div");
+            divElement.innerHTML = JSON.parse(response.body).message;
+            document.querySelector("#messageOutputBox").append(divElement);
+        }
+
+        function connectServerRaw() {
+            socket = new SockJS("http://localhost:8080/connect");
+        }
+
+        function connectChatRoomRaw(){
+
+        }
+
+        function sendMessageRaw(){
+
+        }
+
+        function receiveMessageRaw(){
+
         }
     </script>
 </head>
-<body>
-    메인 화면
-    <input id="chatBox" type="text">
-    <button onclick="sendMessage()">제출</button>
-</body>
+    <body>
+        <input id="messageInputBox" type="text">
+        <button onclick="connectChatRoom()">연결</button>
+        <button onclick="sendMessage()">제출</button>
+        <input id="messageInputBoxRaw" type="text">
+        <button onclick="connectChatRoomRaw()">연결</button>
+        <button onclick="sendMessageRaw()">제출</button>
+        <div id="messageOutputBox"></div>
+    </body>
 </html>

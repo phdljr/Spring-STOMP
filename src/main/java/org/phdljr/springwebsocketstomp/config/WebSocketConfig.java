@@ -24,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.enableSimpleBroker("/queue", "/topic");
 
         // 클라이언트가 메시지를 보낼 때 경로 맨 앞에 "/broker"이 붙어있으면 broker로 보내짐
-        // ex) 클라이언트가 5번 채팅방을 구독할 때 url "/broker/char/room/4"
+        // ex) 클라이언트가 5번 채팅방을 구독할 때 url "/broker/chat/room/4"
         registry.setApplicationDestinationPrefixes("/broker");
     }
 }
