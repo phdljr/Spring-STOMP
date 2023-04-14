@@ -9,6 +9,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/connect")
@@ -24,7 +25,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.enableSimpleBroker("/queue", "/topic");
 
         // 클라이언트가 메시지를 보낼 때 경로 맨 앞에 "/broker"이 붙어있으면 broker로 보내짐
-        // ex) 클라이언트가 5번 채팅방을 구독할 때 url "/broker/chat/room/4"
+        // broker로 보내지면 @Controller 내부의 @MessageMapping 메소드로 라우팅됨
+        // ex) 클라이언트가 4번 채팅방을 구독할 때 url "/broker/chat/room/4" => "/chat/room/4" 채널을 구독한다는 의미
         registry.setApplicationDestinationPrefixes("/broker");
     }
 }

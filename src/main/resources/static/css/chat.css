@@ -1,0 +1,36 @@
+html{
+    height: 100%;
+}
+
+body{
+    height: 100%;
+}
+
+.chat{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-controller{
+    display: flex;
+}
+
+.chat-message{
+
+}
+
+#messageInputBox{
+
+}
+
+#chatConnectBtn{
+
+}
+
+#messageInputBtn{
+
+}
+
+#messageOutputBox{
+
+}
