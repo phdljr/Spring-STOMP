@@ -1,9 +1,12 @@
 let socket = null;
 let stomp = null;
+
 window.addEventListener("load", (event) => {
     connectServer();
     setEventListener();
 });
+
+window.addEventListener("close")
 
 function setEventListener() {
     let connectChatRoomBtn = document.querySelector("#connectChatRoomBtn");
